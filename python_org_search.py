@@ -83,7 +83,42 @@ def get_user_location():
 	location_element = get_location_element()
 	if location_element:
 		print location_element.text
-	print None
+	else: 
+		print None
+
+def show_all_comments():
+	try:
+		while driver.find_element_by_xpath('//button[@class="'+'_l086v _ifrvy'+'"]'):
+			print "clicking load more"
+			driver.find_element_by_xpath('//button[@class="'+'_l086v _ifrvy'+'"]').click()
+			time.sleep(1)
+	except:
+		return None
+
+
+
+def get_comments():
+	user_comment_list = []
+
+	users = driver.find_elements_by_xpath('//li[@class="'+'_nk46a'+'"]//a[@class="'+'_4zhc5 notranslate _iqaka'+'"]')
+	for u in users:
+		user_comment_list.append([u.text])
+
+	comments = driver.find_elements_by_xpath('//li[@class="'+'_nk46a'+'"]//span')
+	idx = 0
+	for c in comments:
+		user_comment_list[idx].append(c.text)
+		idx+=1
+
+	comment_dicts = [] 
+	for uc in user_comment_list:
+		comment = {}
+		comment['user'] = uc[0]
+		comment['comment'] = uc[1]
+		comment_dicts.append(post)
+
+	return comment_dicts
+
 
 
 
@@ -95,7 +130,7 @@ def click_next_arrow():
 	driver.find_element_by_xpath('//a[@class="'+'_de018 coreSpriteRightPaginationArrow'+'"]').click()
 
 # opening file to write to
-with open('sample.txt', 'a') as f:
+with open('acl_instagram.txt', 'a') as f:
 
 	for i in xrange(2):
 		dict = {}
@@ -107,6 +142,8 @@ with open('sample.txt', 'a') as f:
 
 		get_user_name()
 		get_user_location()
+		show_all_comments()
+		dict['comments'] = get_comments()
 		f.write(json.dumps(dict))
 		f.write('\n')
 		click_next_arrow()

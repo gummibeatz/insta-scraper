@@ -17,5 +17,6 @@ with io.open('acl_instagram.csv', 'ab') as csv_data:
             post = json.loads(insta_data)
             writer.writerow([
                 get_value_from_dict_or_return_NA(post, 'likes_count'),
-                get_value_from_dict_or_return_NA(post, 'views_count')
+                get_value_from_dict_or_return_NA(post, 'views_count'),
+                get_value_from_dict_or_return_NA(post, 'comments')
             ])
