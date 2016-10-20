@@ -82,14 +82,13 @@ def get_location_element():
 def get_user_location():
 	location_element = get_location_element()
 	if location_element:
-		print location_element.text
+		return location_element.text
 	else: 
-		print None
+		return None
 
 def show_all_comments():
 	try:
 		while driver.find_element_by_xpath('//button[@class="'+'_l086v _ifrvy'+'"]'):
-			print "clicking load more"
 			driver.find_element_by_xpath('//button[@class="'+'_l086v _ifrvy'+'"]').click()
 			time.sleep(1)
 	except:
@@ -115,16 +114,18 @@ def get_comments():
 		comment = {}
 		comment['user'] = uc[0]
 		comment['comment'] = uc[1]
-		comment_dicts.append(post)
+		comment_dicts.append(comment)
 
 	return comment_dicts
 
 
+def get_post_time():
+	return driver.find_element_by_xpath('//time[@class="'+'_379kp'+'"]').get_attribute("datetime")
 
 
 
 def get_user_name():
-	print driver.find_element_by_xpath('//a[@class="'+'_4zhc5 notranslate _ook48'+'"]').text
+	return driver.find_element_by_xpath('//a[@class="'+'_4zhc5 notranslate _ook48'+'"]').text
 
 def click_next_arrow():
 	driver.find_element_by_xpath('//a[@class="'+'_de018 coreSpriteRightPaginationArrow'+'"]').click()
@@ -132,7 +133,7 @@ def click_next_arrow():
 # opening file to write to
 with open('acl_instagram.txt', 'a') as f:
 
-	for i in xrange(2):
+	for i in xrange(463722):
 		dict = {}
 
 		if get_like_element():
@@ -140,10 +141,12 @@ with open('acl_instagram.txt', 'a') as f:
 		else: 
 			dict['views_count'] = get_number_of_views()
 
-		get_user_name()
-		get_user_location()
+		dict['user'] = get_user_name()
+		dict['post_time'] = get_post_time()
+		dict['post_location'] = get_user_location()
 		show_all_comments()
 		dict['comments'] = get_comments()
+
 		f.write(json.dumps(dict))
 		f.write('\n')
 		click_next_arrow()
