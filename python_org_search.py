@@ -38,34 +38,31 @@ searchbox = WebDriverWait(driver, 10).until(
         (By.XPATH, "//input[@placeholder='Search']")
     )
 )
-WebDriverWait(driver, 10)
-element = driver.find_element_by_tag_name('div').find_element_by_tag_name('a').find_element_by_tag_name('div').find_element_by_tag_name('div').find_element_by_tag_name('img')
-actions = ActionChains(driver)
-actions.move_to_element(element).click().perform()
-WebDriverWait(driver, 10)
-# Picture has been clicked
-
-# Getting number of likes
 
 
-# Get Likes-------------------
+
+# Checks to see if there is a like
 def get_like_element(): 
 	try:
 		return driver.find_element_by_xpath('//div[@class="'+'_iuf51 _oajsw'+'"]')
 	except:
 		return None
+# ----------------------------
 
+# Gets number of likes
 def get_number_of_likes():
 	like_element = get_like_element()
 	return like_element.text
+# ----------------------------
 
-
-# Get Views-----------------------
+#Checks to see if these are the views
 def get_view_element():
 	try:
 		return driver.find_element_by_xpath('//div[@class="'+'_iuf51 _3sst1'+'"]')
 	except:
 		return None
+
+
 
 def get_number_of_views():
 	view_element = get_view_element()
@@ -127,34 +124,160 @@ def get_post_time():
 def get_user_name():
 	return driver.find_element_by_xpath('//a[@class="'+'_4zhc5 notranslate _ook48'+'"]').text
 
-def click_next_arrow():
-	driver.find_element_by_xpath('//a[@class="'+'_de018 coreSpriteRightPaginationArrow'+'"]').click()
 
-# opening file to write to
-with open('acl_instagram.txt', 'a') as f:
 
-	for i in xrange(463722):
-		dict = {}
+# Scrolls down
+def scroll_down():
+	print 'scrolling down'
+	driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+	time.sleep(1)
+# ----------------------------
 
-		if get_like_element():
-			dict['likes_count'] = get_number_of_likes()
-		else: 
-			dict['views_count'] = get_number_of_views()
-
-		dict['user'] = get_user_name()
-		dict['post_time'] = get_post_time()
-		dict['post_location'] = get_user_location()
-		show_all_comments()
-		dict['comments'] = get_comments()
-
-		f.write(json.dumps(dict))
-		f.write('\n')
-		click_next_arrow()
-		time.sleep(2)
+# Scrolls up
+def scroll_up():
+	print 'scrolling up'
+	driver.execute_script("window.scrollTo(0, 0);")
+	time.sleep(3)
+# ----------------------------
 
 
 
-driver.quit()
+# Find Number of Hashtags
+stop = driver.find_element_by_xpath('//span[@class="'+'_bkw5z'+'"]').text
+stop = stop.replace(',', '')
+stop = int(stop)
+stop -= 1
+print 'stopCount = {}'.format(stop)
+
+# Click "Load More" button
+driver.find_element_by_xpath('//a[@class="'+'_oidfu'+'"]').click()
+time.sleep(1)
+
+
+
+previous_image_count = 0
+nodes = driver.find_elements_by_xpath('//div[@class="'+'_ovg3g'+'"]')
+current_image_count = len(nodes)
+retry_count = 0
+
+def retry():
+	scroll_up()
+	scroll_down()
+
+
+
+
+while (current_image_count < stop):
+	nodes = driver.find_elements_by_xpath('//div[@class="'+'_ovg3g'+'"]')
+	current_image_count = len(nodes)
+
+	# checking to retry
+	if previous_image_count == current_image_count:
+		retry()
+	# 	retry_count += 1
+	# elif retry_count >= 5:
+	# 	print 'exceeded retry count, giving up.'
+	# 	break
+	# retry_count = 0
+
+	# for node_idx in xrange(previous_image_count, current_image_count):
+	# 	nodes[node_idx].click()
+	# 	# grab all the stuff function
+	# 	driver.find_element_by_xpath('//button[@class="'+'_3eajp'+'"]').click()
+	
+	print current_image_count
+	print previous_image_count
+
+	previous_image_count = current_image_count
+	scroll_down()
+	# time.sleep(1)
+
+
+
+
+
+
+
+# def click_next_arrow():
+# 	driver.find_element_by_xpath('//a[@class="'+'_de018 coreSpriteRightPaginationArrow'+'"]').click()
+
+# def right_arrow_press():
+# 	right_arrow = driver.find_element_by_xpath('//a[@class="'+'_de018 coreSpriteRightPaginationArrow'+'"]')
+# 	right_arrow.send_keys(Keys.ARROW_RIGHT)
+
+# # opening file to write to
+# with open('acl_instagram.txt', 'a') as f:
+
+# 	for i in xrange(464241):
+# 		dict = {}
+
+# 		if get_like_element():
+# 			dict['likes_count'] = get_number_of_likes()
+# 		else: 
+# 			dict['views_count'] = get_number_of_views()
+
+# 		dict['user'] = get_user_name()
+# 		dict['post_time'] = get_post_time()
+# 		dict['post_location'] = get_user_location()
+# 		show_all_comments()
+# 		dict['comments'] = get_comments()
+
+# 		f.write(json.dumps(dict))
+# 		f.write('\n')
+# 		click_next_arrow()
+# 		time.sleep(2)
+
+# 		dict = {}
+
+# 		if get_like_element():
+# 			dict['likes_count'] = get_number_of_likes()
+# 		else: 
+# 			dict['views_count'] = get_number_of_views()
+
+# 		dict['user'] = get_user_name()
+# 		dict['post_time'] = get_post_time()
+# 		dict['post_location'] = get_user_location()
+# 		show_all_comments()
+# 		dict['comments'] = get_comments()
+
+# 		f.write(json.dumps(dict))
+# 		f.write('\n')
+# 		right_arrow_press
+# 		time.sleep(2)
+
+
+
+# driver.quit()
+
+
+
+
+
+# WebDriverWait(driver, 10)
+# element = driver.find_element_by_tag_name('div').find_element_by_tag_name('a').find_element_by_tag_name('div').find_element_by_tag_name('div').find_element_by_tag_name('img')
+# actions = ActionChains(driver)
+# actions.move_to_element(element).click().perform()
+# WebDriverWait(driver, 10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
