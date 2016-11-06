@@ -13,7 +13,6 @@ from profilehooks import profile
 
 def open_instagram(driver):
 	driver.get("https://www.instagram.com/")
-	driver.implicitly_wait(5000) 
 # ----------------------------
 
 
@@ -24,8 +23,8 @@ def login(driver, username, password):
 	iguserelem.send_keys(username)
 	igpwelem = driver.find_element_by_name("password")
 	igpwelem.send_keys(password)
+        time.sleep(2)
 	igpwelem.send_keys(Keys.RETURN)
-	driver.implicitly_wait(5)
 # ----------------------------
 
 

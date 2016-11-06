@@ -32,13 +32,17 @@ def grab_user_post(f, driver):
 chromedriver = os.environ['chromedriver_path']
 os.environ["webdriver.chrome.driver"] = chromedriver
 driver = webdriver.Chrome(chromedriver)
+driver.implicitly_wait(1)
 # ----------------------------
 
 # THIS IS THE ALGORITHM!!!!!!
 username = os.environ['username']
 password = os.environ['password']
-open_instagram(driver, username, password)
-login(driver)
+
+open_instagram(driver)
+time.sleep(2)
+login(driver, username, password)
+time.sleep(5)
 
 
 # Search based on tag
@@ -91,7 +95,7 @@ with open('acl_instagram_testand.txt', 'a') as f:
 
         while((post_src_value not in post_src_set) and (node_count_offset <= node_count)):
             post_src_set.add(post_src_value)
-            # grab_user_post(f, driver)
+            grab_user_post(f, driver)
             click_left_arrow(driver)
             time.sleep(0.5)
             post_src_value = get_post_src_value(driver)
