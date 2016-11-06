@@ -19,11 +19,11 @@ def open_instagram(driver):
 
 # Log in as "Miskuoted"
 
-def login(driver):
+def login(driver, username, password):
 	iguserelem = driver.find_element_by_name("username")
-	iguserelem.send_keys("farrell.chan1")
+	iguserelem.send_keys(username)
 	igpwelem = driver.find_element_by_name("password")
-	igpwelem.send_keys("v4nhalen!")
+	igpwelem.send_keys(password)
 	igpwelem.send_keys(Keys.RETURN)
 	driver.implicitly_wait(5)
 # ----------------------------

@@ -1,7 +1,12 @@
 from sets import Set
 from insta_scraper_methods import *
+from os.path import join, dirname
+from dotenv import load_dotenv
 import json
 import pdb
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 # opening file to write to
 # f is the file it's gonna write to
@@ -24,13 +29,15 @@ def grab_user_post(f, driver):
 # ----------------------------
 
 # Define driver
-chromedriver_path = os.environ['chromedriver_path']
+chromedriver = os.environ['chromedriver_path']
 os.environ["webdriver.chrome.driver"] = chromedriver
 driver = webdriver.Chrome(chromedriver)
 # ----------------------------
 
 # THIS IS THE ALGORITHM!!!!!!
-open_instagram(driver)
+username = os.environ['username']
+password = os.environ['password']
+open_instagram(driver, username, password)
 login(driver)
 
 
