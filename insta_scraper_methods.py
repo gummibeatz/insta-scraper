@@ -21,9 +21,9 @@ def open_instagram(driver):
 @profile
 def login(driver):
 	iguserelem = driver.find_element_by_name("username")
-	iguserelem.send_keys("miskuoted")
+	iguserelem.send_keys("farrell.chan1")
 	igpwelem = driver.find_element_by_name("password")
-	igpwelem.send_keys("v4nhalen")
+	igpwelem.send_keys("v4nhalen!")
 	igpwelem.send_keys(Keys.RETURN)
 	driver.implicitly_wait(5)
 # ----------------------------
@@ -84,16 +84,6 @@ def get_image_element(driver):
 # ----------------------------
 
 
-# Checks to see if this is a video
-@profile
-def get_video_element(driver): 
-    try:
-        return driver.find_element_by_xpath('//div[@class="_2tomm"]/img[@src]')
-    except:
-        return None
-# ----------------------------
-
-
 # Gets image src element
 @profile
 def get_element_src_value(element):
@@ -105,11 +95,8 @@ def get_element_src_value(element):
 @profile
 def get_post_src_value(driver):
 	image_element = get_image_element(driver)
-        video_element = get_video_element(driver)
 	if image_element:
 		return get_element_src_value(image_element)
-	else:
-		return get_element_src_value(video_element)
 # ----------------------------
 
 
