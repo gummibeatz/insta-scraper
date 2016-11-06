@@ -78,7 +78,7 @@ with open('acl_instagram_testand.txt', 'a') as f:
         node_count_offset = 1 
         node = nodes[node_count - node_count_offset]
         node.click()
-        time.sleep(1)
+        time.sleep(0.5)
         # check get image src value
         post_src_value = get_post_src_value(driver)
 
@@ -86,7 +86,7 @@ with open('acl_instagram_testand.txt', 'a') as f:
             post_src_set.add(post_src_value)
             # grab_user_post(f, driver)
             click_left_arrow(driver)
-            time.sleep(1)
+            time.sleep(0.5)
             post_src_value = get_post_src_value(driver)
             node_count_offset += 1
        	click_exit_button(driver)

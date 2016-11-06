@@ -6,9 +6,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
 import time
+from profilehooks import profile
 
 
 # Open Instagram
+@profile
 def open_instagram(driver):
 	driver.get("https://www.instagram.com/")
 	driver.implicitly_wait(5000) 
@@ -16,6 +18,7 @@ def open_instagram(driver):
 
 
 # Log in as "Miskuoted"
+@profile
 def login(driver):
 	iguserelem = driver.find_element_by_name("username")
 	iguserelem.send_keys("miskuoted")
@@ -27,6 +30,7 @@ def login(driver):
 
 
 # Wait until element is visible
+@profile
 def visible_element(driver, xpath, timeout=10):
 	WebDriverWait(driver, timeout).until(
 	    EC.visibility_of_element_located(
@@ -35,6 +39,7 @@ def visible_element(driver, xpath, timeout=10):
 	)
 
 # Checks to see if there are likes
+@profile
 def get_like_element(driver): 
     try:
         return driver.find_element_by_xpath('//div[@class="'+'_iuf51 _oajsw'+'"]')
@@ -44,6 +49,7 @@ def get_like_element(driver):
 
 
 # Gets number of likes
+@profile
 def get_number_of_likes(driver):
     like_element = get_like_element(driver)
     return like_element.text
@@ -51,6 +57,7 @@ def get_number_of_likes(driver):
 
 
 #Checks to see if these are the views
+@profile
 def get_view_element(driver):
     try:
         return driver.find_element_by_xpath('//div[@class="'+'_iuf51 _3sst1'+'"]')
@@ -60,6 +67,7 @@ def get_view_element(driver):
 
 
 # Gets the number of views
+@profile
 def get_number_of_views(driver):
     view_element = get_view_element(driver)
     return view_element.text
@@ -67,6 +75,7 @@ def get_number_of_views(driver):
 
 
 # Checks to see if this is an image
+@profile
 def get_image_element(driver): 
     try:
         return driver.find_elements_by_xpath('//div[@class="_n3cp9 _d20no"]/article//img')[-1]
@@ -76,6 +85,7 @@ def get_image_element(driver):
 
 
 # Checks to see if this is a video
+@profile
 def get_video_element(driver): 
     try:
         return driver.find_element_by_xpath('//div[@class="_2tomm"]/img[@src]')
@@ -85,12 +95,14 @@ def get_video_element(driver):
 
 
 # Gets image src element
+@profile
 def get_element_src_value(element):
     return element.get_attribute('src')
 # ----------------------------
 
 
 # Gets post src element
+@profile
 def get_post_src_value(driver):
 	image_element = get_image_element(driver)
         video_element = get_video_element(driver)
@@ -102,6 +114,7 @@ def get_post_src_value(driver):
 
 
 # Gets last pImage id
+@profile
 def get_last_p_image_tag(driver): 
     pImage = driver.find_elements_by_xpath('//div[@class="_jjzlb"]/img[@id]')[-1]
     return pImage.get_attribute('id')
@@ -109,6 +122,7 @@ def get_last_p_image_tag(driver):
 
 
 # Checks to see if there is a user location
+@profile
 def get_location_element(driver):
     try:
         return driver.find_element_by_xpath('//a[@class="'+'_kul9p _rnlnu'+'"]')
@@ -117,6 +131,7 @@ def get_location_element(driver):
 # ----------------------------
 
 # Gets the user location
+@profile
 def get_user_location(driver):
     location_element = get_location_element(driver)
     if location_element:
@@ -126,6 +141,7 @@ def get_user_location(driver):
 # ----------------------------
 
 #Clicks "Show more comments" button
+@profile
 def show_all_comments(driver):
     try:
         while driver.find_element_by_xpath('//button[@class="'+'_l086v _ifrvy'+'"]'):
@@ -137,6 +153,7 @@ def show_all_comments(driver):
 
 
 # Gets all of the comments
+@profile
 def get_comments(driver):
     user_comment_list = []
 
@@ -161,18 +178,21 @@ def get_comments(driver):
 # ----------------------------
 
 #Gets the post time
+@profile
 def get_post_time(driver):
     return driver.find_element_by_xpath('//time[@class="'+'_379kp'+'"]').get_attribute("datetime")
 # ----------------------------
 
 
 # Gets the OP username
+@profile
 def get_user_name(driver):
     return driver.find_element_by_xpath('//a[@class="'+'_4zhc5 notranslate _ook48'+'"]').text
 # ----------------------------
 
 
 # Scrolls down
+@profile
 def scroll_down(driver):
     print 'scrolling down'
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -180,6 +200,7 @@ def scroll_down(driver):
 # ----------------------------
 
 # Scrolls up
+@profile
 def scroll_up(driver):
     print 'scrolling up'
     driver.execute_script("window.scrollTo(0, 0);")
@@ -188,12 +209,14 @@ def scroll_up(driver):
 
 
 # CLICK right arrow
+@profile
 def click_next_arrow(driver):
 	driver.find_element_by_xpath('//a[@class="'+'_de018 coreSpriteRightPaginationArrow'+'"]').click()
 # ----------------------------
 
 
 # PRESS right arrow
+@profile
 def right_arrow_press(driver):
 	right_arrow = driver.find_element_by_xpath('//a[@class="'+'_de018 coreSpriteRightPaginationArrow'+'"]')
 	right_arrow.send_keys(Keys.ARROW_RIGHT)
@@ -201,18 +224,25 @@ def right_arrow_press(driver):
 
 
 # CLICK left arrow
+@profile
 def click_left_arrow(driver):
-	driver.find_element_by_xpath('//a[@class="'+'_qdy3e coreSpriteLeftPaginationArrow'+'"]').click()
+    try:
+        e = driver.find_element_by_xpath('//a[@class="'+'_qdy3e coreSpriteLeftPaginationArrow'+'"]')
+        e.click()
+    except:
+        print("no left arrow found")
 # ----------------------------
 
 
 # CLICK exit button
+@profile
 def click_exit_button(driver):
 	driver.find_element_by_xpath('//button[@class="'+'_3eajp'+'"]').click()
 # ----------------------------
 
 
 # Scrolls until more images are loaded
+@profile
 def scroll_until_more_loaded(driver):
     last_p_image_tag = None
     current_p_image_tag = get_last_p_image_tag(driver)
