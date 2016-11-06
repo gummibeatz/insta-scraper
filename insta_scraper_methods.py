@@ -69,7 +69,7 @@ def get_number_of_views(driver):
 # Checks to see if this is an image
 def get_image_element(driver): 
     try:
-        return driver.find_element_by_xpath('//div[@class="_jjzlb"]/img[@src]')
+        return driver.find_elements_by_xpath('//div[@class="_n3cp9 _d20no"]/article//img')[-1]
     except:
         return None
 # ----------------------------

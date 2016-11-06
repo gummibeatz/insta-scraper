@@ -1,6 +1,7 @@
 from sets import Set
 from insta_scraper_methods import *
 import json
+import pdb
 
 # opening file to write to
 # f is the file it's gonna write to
@@ -77,14 +78,15 @@ with open('acl_instagram_testand.txt', 'a') as f:
         node_count_offset = 1 
         node = nodes[node_count - node_count_offset]
         node.click()
+        time.sleep(1)
         # check get image src value
         post_src_value = get_post_src_value(driver)
 
         while((post_src_value not in post_src_set) and (node_count_offset <= node_count)):
             post_src_set.add(post_src_value)
-            time.sleep(3)
             # grab_user_post(f, driver)
             click_left_arrow(driver)
+            time.sleep(1)
             post_src_value = get_post_src_value(driver)
             node_count_offset += 1
        	click_exit_button(driver)
