@@ -24,7 +24,7 @@ def grab_user_post(f, driver):
 # ----------------------------
 
 # Define driver
-chromedriver="/Users/lliang/Downloads/chromedriver"
+chromedriver_path = os.environ['chromedriver_path']
 os.environ["webdriver.chrome.driver"] = chromedriver
 driver = webdriver.Chrome(chromedriver)
 # ----------------------------
